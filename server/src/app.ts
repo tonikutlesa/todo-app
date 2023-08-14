@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { config } from './config/config';
 import { connectToDatabase } from './database/database';
 import Logger from './utils/Logger';
+import router from './routes';
 
 const app = express();
 
@@ -44,6 +45,7 @@ const startServer = () => {
   });
 
   // Router
+  app.use('/api', router);
 
   // Healthcheck route
   app.get('/ping', (req, res, next) => res.status(200).json({ status: 'operating' }));
