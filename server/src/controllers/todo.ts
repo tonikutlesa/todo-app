@@ -1,4 +1,5 @@
 import { Response, Request } from 'express';
+import { Types } from 'mongoose';
 import { ITodo } from '../types/todo';
 import Todo from '../models/Todo';
 import Logger from '../utils/Logger';
@@ -21,6 +22,11 @@ const getTodo = async (req: Request, res: Response): Promise<void> => {
     const {
       params: { id }
     } = req;
+
+    if (!Types.ObjectId.isValid(id)) {
+      res.status(400).json({ message: 'Invalid id format' });
+      return;
+    }
 
     const todo: ITodo | null = await Todo.findById(id);
 
@@ -60,6 +66,11 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
       params: { id },
       body
     } = req;
+
+    if (!Types.ObjectId.isValid(id)) {
+      res.status(400).json({ message: 'Invalid id format' });
+      return;
+    }
 
     const todo = await Todo.findById(id);
 

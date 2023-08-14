@@ -1,6 +1,5 @@
 import { ITodo } from './../types/todo';
 import { model, Schema } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
 
 const todoSchema: Schema = new Schema(
   {
