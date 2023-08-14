@@ -1,12 +1,14 @@
 import mongoose from 'mongoose';
-import { config } from './config/config';
+import Logger from '../utils/Logger';
+import { config } from '../config/config';
 
 export const connectToDatabase = async () => {
   try {
     await mongoose.connect(config.mongo.url, { retryWrites: true, w: 'majority' });
-    console.log('Connected to the database');
+    Logger.info('Connected to the database');
   } catch (error) {
-    console.error('Error connecting to the database:', error);
+    Logger.error('Error connecting to the database:');
+    Logger.error(error);
     throw error;
   }
 };
@@ -14,9 +16,10 @@ export const connectToDatabase = async () => {
 export const disconnectFromDatabase = async () => {
   try {
     await mongoose.disconnect();
-    console.log('Disconnected from the database');
+    Logger.info('Disconnected from the database');
   } catch (error) {
-    console.error('Error disconnecting from the database:', error);
+    Logger.error('Error disconnecting from the database:');
+    Logger.error(error);
     throw error;
   }
 };
