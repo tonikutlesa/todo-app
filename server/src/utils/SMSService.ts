@@ -51,7 +51,7 @@ function sendSMS(text: string) {
     });
 
     res.on('error', (error) => {
-      console.error(error);
+      Logger.error(error);
     });
   });
 
