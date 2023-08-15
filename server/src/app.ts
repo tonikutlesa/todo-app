@@ -3,6 +3,7 @@ import { config } from './config/config';
 import { connectToDatabase } from './database/database';
 import Logger from './utils/Logger';
 import router from './routes';
+import swaggerDocs from './utils/swagger';
 
 const app = express();
 
@@ -44,11 +45,14 @@ const startServer = () => {
     next();
   });
 
+  // Serve Swagger documentation
+  swaggerDocs(app, config.server.port);
+
   // Router
   app.use('/api', router);
 
   // Healthcheck route
-  app.get('/ping', (req, res, next) => res.status(200).json({ status: 'operating' }));
+  app.get('/healthcheck', (req, res, next) => res.status(200).json({ status: 'operating' }));
 
   // Handle unknown route
   app.use((req, res, next) => {
