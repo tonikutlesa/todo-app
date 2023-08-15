@@ -16,5 +16,10 @@ export const config = {
   },
   server: {
     port: SERVER_PORT
+  },
+  infobipAPI: {
+    sender: process.env.SMS_SENDER || 'InfoSMS',
+    destination: process.env.SMS_DESTINATION || '',
+    apiKey: process.env.INFOBIP_API_KEY || ''
   }
 };

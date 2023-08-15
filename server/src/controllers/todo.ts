@@ -3,6 +3,7 @@ import { Types } from 'mongoose';
 import { ITodo } from '../types/todo';
 import Todo from '../models/Todo';
 import Logger from '../utils/Logger';
+import { sendSMS } from '../utils/SMSService';
 
 const getAllTodos = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -44,11 +45,10 @@ const getTodo = async (req: Request, res: Response): Promise<void> => {
 
 const addTodo = async (req: Request, res: Response): Promise<void> => {
   try {
-    const body = req.body as Pick<ITodo, 'text' | 'done'>;
+    const body = req.body as Pick<ITodo, 'text'>;
 
     const todo: ITodo = new Todo({
-      text: body.text,
-      done: body.done
+      text: body.text
     });
 
     const newTodo: ITodo = await todo.save();
@@ -81,9 +81,8 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
 
     const updatedTodo: ITodo | null = await Todo.findByIdAndUpdate({ _id: id }, body, { new: true });
 
-    if (todo.done === false && updatedTodo?.done === true) {
-      // TODO: send actual SMS and add Logger.info()
-      console.log('send SMS');
+    if (!todo.done && updatedTodo?.done) {
+      sendSMS(`Todo with name: '${updatedTodo.text}' has been completed.`);
     }
 
     res.status(200).json({

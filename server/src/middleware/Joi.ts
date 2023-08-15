@@ -22,7 +22,7 @@ export const Schemas = {
       text: Joi.string().required()
     }),
     update: Joi.object<ITodo>({
-      text: Joi.string().required(),
+      text: Joi.string().optional(),
       done: Joi.boolean().optional()
     })
   }
