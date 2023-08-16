@@ -81,6 +81,8 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
 
     const updatedTodo: ITodo | null = await Todo.findByIdAndUpdate({ _id: id }, body, { new: true });
 
+    // Send SMS only if current todo done status is false and updated done status is true to avoid sending
+    // multiple SMS messages for the same finished todo if it is updated multiple times
     if (!todo.done && updatedTodo?.done) {
       sendSMS(`Todo with name: '${updatedTodo.text}' has been completed.`);
     }
