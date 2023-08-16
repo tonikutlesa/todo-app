@@ -22,13 +22,15 @@ To get started with the Todo App, follow these steps:
    cd server
    ```
 
-3. Install the required dependencies:
+3. Create the .env file in the server directory and copy provided secrets into it
+
+4. Install the required dependencies:
 
    ```
    npm install
    ```
 
-4. Start the server:
+5. Start the server:
 
    ```
    npm start
